@@ -1,33 +1,40 @@
 pipeline {
-    agent { label 'master'}
+    agent any // Se ejecutará en cualquier agente disponible.
 
-        stages {
- 
-            stage ('test') {
-                steps {
-                  dir("build_java"){
-                        echo "mvn clean compile test"
-                  }
-                   
-                   
-                }
-            }
-
-            stage ('Build application') {
-                steps {
-                    dir("build_java"){
-
-                        sh "mvn -f pom.xml clean install -Dmaven.test.skip=true"
-                        sh "tree"
-                    }   
-                }
-            }
-  
-            stage ('Create docker image') {
-                steps {
-                 echo "creando docker"
-                }
-
+    stages {
+        stage('Checkout') {
+            steps {
+                // Realiza la extracción del código desde Git
+                checkout scm
             }
         }
+
+        stage('Test') {
+            steps {
+                dir('build_java') {
+                    echo "Ejecutando pruebas con Maven"
+                    bat "mvn clean compile test" // Comando compatible con Windows
+                }
+            }
+        }
+
+        stage('Build application') {
+            steps {
+                dir('build_java') {
+                    echo "Compilando la aplicación"
+                    bat "mvn -f pom.xml clean install -Dmaven.test.skip=true" // Comando Maven para Windows
+                    bat "tree" // Comando tree para verificar la estructura de directorios
+                }
+            }
+        }
+
+        /*
+        stage('Create docker image') {
+            steps {
+                echo "Creando la imagen de Docker"
+                
+            }
+        }
+        */
+    }
 }
