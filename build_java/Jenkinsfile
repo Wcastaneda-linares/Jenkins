@@ -24,6 +24,7 @@ pipeline {
                 echo "creando docker"
             }
         }
+        */
     }
-    */
+    
 }
