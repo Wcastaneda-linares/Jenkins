@@ -1,5 +1,5 @@
 pipeline {
-    agent any // Se ejecutará en cualquier agente disponible.
+    agent any 
 
     stages {
         stage('Checkout') {
@@ -13,7 +13,7 @@ pipeline {
             steps {
                 dir('build_java') {
                     echo "Ejecutando pruebas con Maven"
-                    bat "mvn clean compile test" // Comando compatible con Windows
+                    bat "mvn clean compile test"
                 }
             }
         }
@@ -22,8 +22,8 @@ pipeline {
             steps {
                 dir('build_java') {
                     echo "Compilando la aplicación"
-                    bat "mvn -f pom.xml clean install -Dmaven.test.skip=true" // Comando Maven para Windows
-                    bat "tree" // Comando tree para verificar la estructura de directorios
+                    bat "mvn -f pom.xml clean install -Dmaven.test.skip=true" 
+                    bat "tree" 
                 }
             }
         }
